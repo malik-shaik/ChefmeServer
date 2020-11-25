@@ -3,6 +3,8 @@ const { db } = require('..');
 
 const { SELECT, INSERT, UPDATE } = QueryTypes;
 
+// ####################################################################################################
+
 const runQuery = async (sql, bindParams, type = SELECT, options = null) => {
   const sql_mode =
     'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
@@ -17,6 +19,8 @@ const runQuery = async (sql, bindParams, type = SELECT, options = null) => {
   const results = await db.query(sql, { bind: { ...bindParams }, type });
   return options === 'all' ? results : results[0];
 };
+
+// ####################################################################################################
 
 module.exports = {
   /* GET USER BY USER ID */
@@ -122,5 +126,33 @@ module.exports = {
 
     const bind = { ...fields };
     return await runQuery(sql, bind, UPDATE);
+  },
+
+  /* GET TOTAL EARNED AMOUNT */
+  getTotalEarned: async (chefId) => {
+    const sql =
+      'SELECT SUM(amount) as earned_total FROM site_user_wallet WHERE active = 1 AND user_id = $chefId AND type != "payout" GROUP BY user_id';
+    const bind = { chefId };
+    const result = await runQuery(sql, bind);
+    return result || 0;
+  },
+
+  /* GET FUTURE AMOUNT */
+  getFutureAmout: async (chefId) => {
+    const sql =
+      'SELECT SUM(chef_amount_total) as total FROM site_orders WHERE active = 1 AND status = "confirmed" AND chef_id = $chefId AND chef_paid = 0 GROUP BY chef_id';
+
+    const bind = { chefId };
+    const result = await runQuery(sql, bind);
+    return result || 0;
+  },
+
+  /* GET FUTURE AMOUNT */
+  getFuturePayments: async (chefId) => {
+    const sql =
+      'SELECT token, customer_firstname, date, chef_amount_total FROM site_orders WHERE active = 1 AND status = "confirmed" AND ((chef_id = $chefId AND chef_paid = 0) OR (chef_referrer_user_id = $chefId AND chef_referrer_paid = 0) OR (customer_referrer_user_id = $chefId AND customer_referrer_paid = 0)) ORDER BY id DESC';
+    const bind = { chefId };
+    const result = await runQuery(sql, bind, SELECT, 'all');
+    return result || 0;
   },
 };
