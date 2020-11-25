@@ -1,6 +1,7 @@
 const {
   getOrderByIdService,
   getOrdersByUserIdService,
+  orderRequestRejectService,
   orderRequestEditService,
 } = require('../Services/orderServices');
 const { status_codes } = require('../../Constants');
@@ -41,6 +42,19 @@ module.exports.orderRequestEditAciton = async (req, res, next) => {
     if (req.err) throw new Error(req.err);
     const { userId: chefId } = req;
     const data = await orderRequestEditService(chefId, req);
+    next({ status: SUCCESS, data });
+  } catch (error) {
+    next({ status: FAILED, message: error.message });
+  }
+};
+
+// ####################################################################
+// ORDER REQUEST REJECT ACTION
+module.exports.orderRequestRejectAciton = async (req, res, next) => {
+  try {
+    if (req.err) throw new Error(req.err);
+    const { userId: chefId } = req;
+    const data = await orderRequestRejectService(chefId, req);
     next({ status: SUCCESS, data });
   } catch (error) {
     next({ status: FAILED, message: error.message });
