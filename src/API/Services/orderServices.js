@@ -16,7 +16,7 @@ const {
 module.exports.getOrderByTokenService = async ({ chefId, orderToken }) => {
   try {
     const order = await getOrderByChefIdAndToken(chefId, orderToken);
-    if (order.chefId !== chefId) throw new Error('Wrong order.');
+    if (order.chef_id !== chefId) throw new Error('Wrong order.');
     return order;
   } catch (error) {
     console.log('ErrorIn: getOrderByTokenService :', error);

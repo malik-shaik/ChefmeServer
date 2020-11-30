@@ -65,14 +65,11 @@ module.exports = {
   },
 
   /* GET ORDER BY CHEF ID AND TOKEN */
-  getOrderByChefIdAndToken: async (chefId, order_token) => {
+  getOrderByChefIdAndToken: async (chefId, orderToken) => {
     const sql =
-      'SELECT * FROM site_orders WHERE token = $order_token AND chef_id = $chefId';
-    const results = await db.query(sql, {
-      bind: { chefId, order_token },
-      type: QueryTypes.SELECT,
-    });
-    return results[0];
+      'SELECT * FROM site_orders WHERE token = $orderToken AND chef_id = $chefId';
+    const bind = { chefId, orderToken };
+    return await runQuery(sql, bind);
   },
 
   /* CREATE THREAD MESSAGE */
