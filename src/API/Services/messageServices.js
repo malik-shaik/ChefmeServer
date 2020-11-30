@@ -1,4 +1,7 @@
-const { getMessageById, getMessagesByChefId } = require('../../Database/Queries');
+const {
+  getMessageById,
+  getMessagesByChefId,
+} = require('../../Database/Queries');
 
 // ##########################################################################
 // GET MESSAGE BY ID SERVICE
@@ -16,9 +19,9 @@ module.exports.getMessageByIdService = async ({ chefId, messageId }) => {
 
 // ##########################################################################
 // GET ALL MESSAGES BY CHEFID SERVICE
-module.exports.getMessagesByUserIdService = async (chefId) => {
+module.exports.getMessagesByUserIdService = async (chefId, type) => {
   try {
-    const messages = await getMessagesByChefId(chefId);
+    const messages = await getMessagesByChefId(chefId, type);
     return messages;
   } catch (error) {
     console.log('ErrorIn: getMessagesByUserIdService :', error);

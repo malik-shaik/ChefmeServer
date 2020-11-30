@@ -31,8 +31,8 @@ module.exports.getOrderByIdService = async ({ chefId, orderId }) => {
 module.exports.orderRequestEditService = async (chefId, request) => {
   try {
     // TODO: refactor this
-    const orderToken = 'KGCRF';
-    chefId = 2981;
+    const orderToken = 'ZEWLB';
+    // chefId = 2981;
     const userIp = request.ip;
 
     const order = await getOrderByChefIdAndToken(chefId, orderToken);
@@ -72,6 +72,7 @@ module.exports.orderRequestEditService = async (chefId, request) => {
     await updateThread(thread_id, fields);
 
     const updateOrderFields = {
+      // status: 'confirmed',
       status: 'accepted',
       status_change: getCurrentTimeStamp(),
       accepted: getCurrentTimeStamp(),
@@ -105,8 +106,8 @@ module.exports.orderRequestEditService = async (chefId, request) => {
 module.exports.orderRequestRejectService = async (chefId, request) => {
   try {
     // TODO: refactor this
-    const orderToken = 'DXCLM';
-    chefId = 2981;
+    const orderToken = 'GSTBJ';
+    // chefId = 2981;
     const userIp = request.ip;
     const reason = 'Busy';
     const reason_other = null;

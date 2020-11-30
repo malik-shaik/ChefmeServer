@@ -7,7 +7,7 @@ const {
 
 /* MESSAGES ROUTES */
 
-router.get('/all', authorisation, getMessagesByUserIdAction);
+router.get('/:type', authorisation, getMessagesByUserIdAction);
 
 router.get('/:messageId', authorisation, getMessageByIdAction);
 

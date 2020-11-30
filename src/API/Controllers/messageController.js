@@ -25,8 +25,9 @@ module.exports.getMessageByIdAction = async (req, res, next) => {
 module.exports.getMessagesByUserIdAction = async (req, res, next) => {
   try {
     if (req.err) throw new Error(req.err);
+    const { type } = req.params;
     const { userId: chefId } = req;
-    const data = await getMessagesByUserIdService(chefId);
+    const data = await getMessagesByUserIdService(chefId, type);
     next({ status: SUCCESS, data });
   } catch (error) {
     next({ status: FAILED, message: error.message });

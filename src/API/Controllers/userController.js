@@ -2,6 +2,7 @@ const {
   facebookAuthService,
   getUserByIdService,
   loginService,
+  profileEditService,
 } = require('../Services/userServices');
 const { status_codes } = require('../../Constants');
 
@@ -35,6 +36,18 @@ module.exports.loginAction = async (req, res, next) => {
 module.exports.facebookAuthAction = async (req, res, next) => {
   try {
     const data = await facebookAuthService(req.body);
+    return next({ status: SUCCESS, data });
+  } catch (error) {
+    return next({ status: FAILED, message: error.message });
+  }
+};
+
+// ##########################################################################
+// USER PROFILE EDIT ACTION
+module.exports.profileEditAction = async (req, res, next) => {
+  try {
+    if (req.err) throw new Error(req.err);
+    const data = await profileEditService(req.userId, req.body);
     return next({ status: SUCCESS, data });
   } catch (error) {
     return next({ status: FAILED, message: error.message });
