@@ -3,7 +3,7 @@ const { PORT } = require('./src/Config');
 const server = require('./src/app');
 
 // const port = PORT || 5550;
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 const connectServer = async () => {
   try {
