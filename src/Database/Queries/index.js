@@ -10,12 +10,7 @@ const runQuery = async (sql, bindParams, type = SELECT, options = null) => {
     'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
   await db.query(`SET GLOBAL sql_mode="${sql_mode}"`);
   await db.query(`SET SESSION sql_mode="${sql_mode}"`);
-  // await db.query(
-  //   'SET GLOBAL sql_mode="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"'
-  // );
-  // await db.query(
-  //   'SET SESSION sql_mode="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"'
-  // );
+
   const results = await db.query(sql, { bind: { ...bindParams }, type });
   return options === 'all' ? results : results[0];
 };

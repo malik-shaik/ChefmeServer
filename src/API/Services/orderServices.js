@@ -5,7 +5,6 @@ const {
 } = require('../../utils');
 
 const {
-  getOrderById,
   getOrderByChefIdAndToken,
   createThreadMessage,
   updateThread,
@@ -14,14 +13,13 @@ const {
 
 // ##########################################################################
 // GET ORDER BY ID SERVICE
-module.exports.getOrderByIdService = async ({ chefId, orderId }) => {
+module.exports.getOrderByTokenService = async ({ chefId, orderToken }) => {
   try {
-    const order = await getOrderById(orderId);
-    // console.log(order);
-    // if (order.chefId !== chefId) throw new Error('Wrong order.');
+    const order = await getOrderByChefIdAndToken(chefId, orderToken);
+    if (order.chefId !== chefId) throw new Error('Wrong order.');
     return order;
   } catch (error) {
-    console.log('ErrorIn: getOrderByIdService :', error);
+    console.log('ErrorIn: getOrderByTokenService :', error);
     throw new Error(error.message);
   }
 };

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authorisation = require('../../Middlewares/authorisation');
 const {
-  getOrderByIdAction,
+  getOrderByTokenAction,
   getOrdersByUserIdAction,
   orderRequestEditAciton,
   orderRequestRejectAciton,
@@ -17,6 +17,6 @@ router.post('/request/reject', authorisation, orderRequestRejectAciton);
 // TODO: implement the below routes
 // router.post('/request/edit', authorisation, orderRequestEditAciton);
 
-router.get('/:orderId', authorisation, getOrderByIdAction);
+router.get('/:orderToken', authorisation, getOrderByTokenAction);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const {
-  getOrderByIdService,
+  getOrderByTokenService,
   getOrdersByUserIdService,
   orderRequestRejectService,
   orderRequestEditService,
@@ -10,12 +10,12 @@ const { SUCCESS, FAILED } = status_codes;
 
 // ####################################################################
 // GET ORDER BY ID ACTION
-module.exports.getOrderByIdAction = async (req, res, next) => {
+module.exports.getOrderByTokenAction = async (req, res, next) => {
   try {
     if (req.err) throw new Error(req.err);
     const { userId: chefId } = req;
-    const { orderId } = req.params;
-    const data = await getOrderByIdService({ chefId, orderId });
+    const { orderToken } = req.params;
+    const data = await getOrderByTokenService({ chefId, orderToken });
     next({ status: SUCCESS, data });
   } catch (error) {
     next({ status: FAILED, message: error.message });
