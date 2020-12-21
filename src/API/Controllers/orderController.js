@@ -15,7 +15,7 @@ module.exports.getOrderByTokenAction = async (req, res, next) => {
     if (req.err) throw new Error(req.err);
     const { userId: chefId } = req;
     const { orderToken } = req.params;
-    const data = await getOrderByTokenService({ chefId, orderToken });
+    const data = await getOrderByTokenService(chefId, orderToken);
     next({ status: SUCCESS, data });
   } catch (error) {
     next({ status: FAILED, message: error.message });

@@ -13,7 +13,7 @@ const {
 
 // ##########################################################################
 // GET ORDER BY ID SERVICE
-module.exports.getOrderByTokenService = async ({ chefId, orderToken }) => {
+module.exports.getOrderByTokenService = async (chefId, orderToken) => {
   try {
     const order = await getOrderByChefIdAndToken(chefId, orderToken);
     if (order.chef_id !== chefId) throw new Error('Wrong order.');
@@ -27,13 +27,17 @@ module.exports.getOrderByTokenService = async ({ chefId, orderToken }) => {
 // ##########################################################################
 // ORDER REQUEST EDIT SERVICE
 module.exports.orderRequestEditService = async (chefId, request) => {
+  const { orderToken } = request.body;
+  const userIp = request.ip;
   try {
     // TODO: refactor this
-    const orderToken = 'ZEWLB';
-    // chefId = 2981;
-    const userIp = request.ip;
+    // const orderToken = 'ZEWLB';
+    // // chefId = 2981;
+    // console.log(orderToken);
+    // console.log(chefId);
 
     const order = await getOrderByChefIdAndToken(chefId, orderToken);
+    // console.log(order);
     const {
       id: orderId,
       live,
@@ -44,6 +48,10 @@ module.exports.orderRequestEditService = async (chefId, request) => {
       date,
       dinner_time: time,
     } = order;
+
+    const time_to_date = getTimeStamp(date) - getCurrentTimeStamp();
+    // console.log('TIME TO DATE :', time_to_date);
+    if (time_to_date < 0) return 'Order already Expired';
 
     const price_food_per_person = budget;
     const price_food_total = budget * people_num;
@@ -78,7 +86,8 @@ module.exports.orderRequestEditService = async (chefId, request) => {
       chef_respond_time: getCurrentTimeStamp(),
       date,
       date_stamp: getTimeStamp(date),
-      time_to_date: getTimeStamp(date) - getCurrentTimeStamp(),
+      time_to_date,
+      // time_to_date: getTimeStamp(date) - getCurrentTimeStamp(),
       dinner_time: time,
       dinner_time_stamp: getTimeStamp(date, time),
       people_num,
@@ -89,8 +98,13 @@ module.exports.orderRequestEditService = async (chefId, request) => {
       pay_total,
     };
 
-    await updateOrder(orderId, updateOrderFields);
-    // console.log(result);
+    // console.log('TIME TO DATE: ', updateOrderFields.time_to_date);
+
+    console.log('ORDER ID: ', orderId);
+    const res = await updateOrder(orderId, updateOrderFields);
+
+    // console.log(chefId);
+    // console.log(request.body);
 
     return 'Order successfully accepted';
   } catch (error) {
@@ -102,11 +116,13 @@ module.exports.orderRequestEditService = async (chefId, request) => {
 // ##########################################################################
 // ORDER REQUEST REJECT SERVICE
 module.exports.orderRequestRejectService = async (chefId, request) => {
+  const { orderToken } = request.body;
+  const userIp = request.ip;
+
   try {
     // TODO: refactor this
-    const orderToken = 'GSTBJ';
+    // const orderToken = 'GSTBJ';
     // chefId = 2981;
-    const userIp = request.ip;
     const reason = 'Busy';
     const reason_other = null;
 
@@ -154,7 +170,8 @@ module.exports.orderRequestRejectService = async (chefId, request) => {
 
     await updateThread(thread_id, fields);
 
-    return order;
+    return 'Order rejected';
+    // return order;
   } catch (error) {
     console.log('ErrorIn: orderRequestRejectService :', error);
     throw new Error(error.message);

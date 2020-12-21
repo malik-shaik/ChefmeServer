@@ -14,9 +14,11 @@ module.exports.getUserByIdAction = async (req, res, next) => {
   try {
     if (req.err) throw new Error(req.err);
     const data = await getUserByIdService(req.userId);
-    return next({ status: SUCCESS, data });
+    return res.status(200).send(data);
+    // return next({ status: 200, data });
   } catch (error) {
-    return next({ status: FAILED, message: error.message });
+    return res.status(400).send(error.message);
+    // return next({ status: 400, message: error.message });
   }
 };
 

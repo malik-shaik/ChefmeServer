@@ -53,7 +53,7 @@ module.exports.facebookAuthService = async (data) => {
 
     // FIXME: fix the facebook auth issue
 
-    console.log(data);
+    // console.log(data);
     const user = await getUserByFacebookId(parseInt(data.id));
     if (!user) throw new Error('User does not exist. Please register.');
     return user;
