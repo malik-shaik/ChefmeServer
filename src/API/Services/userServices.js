@@ -67,15 +67,10 @@ module.exports.facebookAuthService = async (data) => {
 // USER EDIT SERVICE
 module.exports.profileEditService = async (userId, data) => {
   try {
-    userId = 2982;
-    const updateFields = {
-      firstname: 'skmalikkkk',
-      email: 'new@email.com',
-      phone: 9988696930,
-    };
-    await updateUser(userId, updateFields);
+    await updateUser(userId, data);
+    const user = await getUserByEmail(data.email);
 
-    return 'User updated successfully';
+    return { user, message: 'User updated successfully' };
   } catch (error) {
     console.log('ErrorIn: profileEditService :', error);
     throw new Error(error.message);
