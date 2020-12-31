@@ -1,7 +1,7 @@
 const JWT = require('jsonwebtoken');
 const { JWT_SECRET } = require('../Config');
 
-const auth = (req, res, next) => {
+const authenticate = (req, res, next) => {
   const token = req.header('auth-token');
   try {
     if (!token) throw new Error();
@@ -9,9 +9,12 @@ const auth = (req, res, next) => {
     req.userId = decode.userId;
     next();
   } catch (err) {
-    req.err = 'Authorizaiton denied, please login and try again.';
+    req.err = 'Authentication failed, please login and try again.';
     next();
   }
 };
 
-module.exports = auth;
+module.exports = authenticate;
+
+
+
