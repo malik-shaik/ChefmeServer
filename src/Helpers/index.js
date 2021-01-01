@@ -6,7 +6,7 @@ const { JWT_SECRET } = require('../Config');
 // ##########################################################################
 // CREATES JSON WEB TOKEN
 module.exports.createJWT = (userId) =>
-  JWT.sign({ userId }, JWT_SECRET, { expiresIn: 360000 });
+  JWT.sign({ userId }, JWT_SECRET, { expiresIn: 2592000 });
 
 // ##########################################################################
 // CHECK THE PASSWORD
