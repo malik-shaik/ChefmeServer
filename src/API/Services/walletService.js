@@ -2,7 +2,7 @@ const {
   getTotalEarned,
   getFutureAmout,
   getFuturePayments,
-} = require('../../Database/Queries');
+} = require('../../Database/Modals');
 
 // ##########################################################################
 // GET TOTAL EARNED SERVICE

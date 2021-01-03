@@ -25,7 +25,6 @@ module.exports = {
     return await runQuery(sql, bind);
   },
 
-  // FIX: VALIDATION
   /* GET USER BY EMAIL */
   getUserByEmail: async (email) => {
     const sql = 'SELECT * FROM site_users WHERE email = $email';

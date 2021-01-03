@@ -1,7 +1,7 @@
 const {
   getMessageById,
   getMessagesByChefId,
-} = require('../../Database/Queries');
+} = require('../../Database/Modals');
 
 // ##########################################################################
 // GET MESSAGE BY ID SERVICE

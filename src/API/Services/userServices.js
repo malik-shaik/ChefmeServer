@@ -3,8 +3,9 @@ const {
   getUserByFacebookId,
   getUserById,
   updateUser,
-} = require('../../Database/Queries');
-const helperMethods = require('../../Helpers');
+} = require('../../Database/Modals');
+// const helperMethods = require('../../Helpers');
+const { checkPassword, createJWT } = require('../../Helpers');
 
 // ##########################################################################
 // GET USER BY ID SERVICE
@@ -27,16 +28,13 @@ module.exports.getUserByIdService = async (id) => {
 module.exports.loginService = async (data) => {
   try {
     const user = await getUserByEmail(data.email);
-    if (!user) throw new Error('User does not exist. Please signup.');
+    if (!user) throw new Error('Invalid credentials.');
 
-    const passwordMatch = await helperMethods.checkPassword(
-      data.password,
-      user.password
-    );
+    const passwordMatch = await checkPassword(data.password, user.password);
     if (!passwordMatch) throw new Error('Invalid credentials.');
 
     user.password = undefined;
-    const token = helperMethods.createJWT(user.id);
+    const token = createJWT(user.id);
 
     return { user, token };
   } catch (error) {

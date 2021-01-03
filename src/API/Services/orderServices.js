@@ -9,7 +9,7 @@ const {
   createThreadMessage,
   updateThread,
   updateOrder,
-} = require('../../Database/Queries');
+} = require('../../Database/Modals');
 
 // ##########################################################################
 // GET ORDER BY ID SERVICE

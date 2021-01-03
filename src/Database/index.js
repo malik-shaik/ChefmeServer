@@ -15,6 +15,7 @@ const db = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
   // disable logging; default: console.log
   logging: false,
 });
+
 const dbConnection = async () => {
   try {
     await db.authenticate();
