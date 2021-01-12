@@ -15,7 +15,7 @@ module.exports.getUserByIdService = async (id) => {
     if (!user) throw new Error('User does not exist.');
     user.password = undefined;
 
-    const token = helperMethods.createJWT(id);
+    const token = createJWT(id);
     return { user, token };
   } catch (error) {
     console.log('ErrorIn: getUserByIdService :', error);
